@@ -1,0 +1,43 @@
+version: "1"
+
+services:
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - aol
+    restart: unless-stopped
+
+  app:
+    container_name: student_service_container
+    image: student_service_image
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=changeme
+      - DB_NAME=student-service
+      - DB_OPTIONS=sslmode=disable
+    ports:
+      - "8000:8000"
+    networks:
+      - aol
+    depends_on:
+      - postgres
+
+networks:
+  aol:
+    driver: bridge
+
+volumes:
+  postgres:
+
