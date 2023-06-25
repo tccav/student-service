@@ -10,10 +10,8 @@ from validations import StudentValidator
 from psycopg.errors import UniqueViolation
 import os
 
-print(os.environ['DB_USER'])
 
 app = Sanic("StudentServiceApp")
-#app.ctx.db = "postgres://postgres:changeme@postgres:5432/postgres_db"
 app.ctx.db = f"postgres://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}?{os.environ['DB_OPTIONS']}"
 
 Extend.register(
