@@ -1,6 +1,6 @@
 DO
 $$
-
+	BEGIN
 		-- populate students
 		INSERT INTO students (id, name, cpf, birth_date, email, course_id)
 		VALUES (201320509912, 'Liz Sophie Moreira', '79715568700', '1993-01-18', 'lizsm@ol.com', 'f5be09bc-0711-11ee-be56-0242ac120002'),
