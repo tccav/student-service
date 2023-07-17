@@ -12,7 +12,7 @@ from mayim.extension import SanicMayimExtension
 import json_logging
 from sanic_ext.extensions.openapi.definitions import Response
 
-from app import telemetry
+import telemetry
 from models import Student
 from executors import StudentExecutor
 from validations import StudentValidator
@@ -23,7 +23,7 @@ resource = Resource(attributes={
     SERVICE_NAME: "student-service"
 })
 tracer_provider = TracerProvider(resource=resource)
-tracer_processor = BatchSpanProcessor(OTLPSpanExporter(endpoint="localhost:4317", insecure=True))
+tracer_processor = BatchSpanProcessor(OTLPSpanExporter(endpoint=os.environ['OTEL_BASE_URL'], insecure=True))
 tracer_provider.add_span_processor(tracer_processor)
 trace.set_tracer_provider(tracer_provider)
 
@@ -99,4 +99,4 @@ async def post_student(request: Request, executor: StudentExecutor):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8001, access_log=True)
+    app.run(host="0.0.0.0", port=int(os.environ['APP_PORT']), access_log=True)

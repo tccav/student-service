@@ -27,8 +27,10 @@ services:
       - DB_PASSWORD=changeme
       - DB_NAME=student-service
       - DB_OPTIONS=sslmode=disable
+      - OTEL_BASE_URL=collector:4317
+      - APP_PORT=8001
     ports:
-      - "8000:8000"
+      - "8001:8001"
     networks:
       - aol
     depends_on:
